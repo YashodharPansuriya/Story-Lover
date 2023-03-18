@@ -58,11 +58,26 @@ def book(request, pk):
         )"""
 
 from rest_framework.views import APIView 
+from rest_framework.response import Response
+from rest_framework import status
 from book_api.models import Book  
 from book_api.serializer import BookSerializer
+
 
 
 class BookList(APIView):
     def get(self, request):
         book = Book.objects.all()
         serializer = BookSerializer(book, many=True)
+        return Response(serializer.data)
+    
+class BookCreate(APIView):
+    def post(self, request):
+        serializer = BookSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+        
+
