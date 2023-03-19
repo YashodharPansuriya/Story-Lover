@@ -26,6 +26,7 @@ from book_api.models import Book
 from django.forms import ValidationError
 
 class BookSerializer(serializers.ModelSerializer):
+    discription = serializers.SerializerMethodField()
     class Meta:
         model = Book
         fields = "__all__"
@@ -39,4 +40,7 @@ class BookSerializer(serializers.ModelSerializer):
         if data["number_of_pages"] > 200 and data["quantity"] > 200:
             raise ValidationError("Too heavy for inventory")
         return data
+    
+    def get_discription(self, data):
+        return "This book is called " + data.title+" and it is "+str(data.number_of_pages)+" pages long. "
             
