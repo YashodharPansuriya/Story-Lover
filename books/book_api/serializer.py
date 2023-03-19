@@ -1,4 +1,4 @@
-from rest_framework import serializers
+"""from rest_framework import serializers
 from book_api.models import Book
 
 class BookSerializer(serializers.Serializer):
@@ -18,4 +18,13 @@ class BookSerializer(serializers.Serializer):
         instance.quantity = data.get('quantity', instance.quantity)
 
         instance.save()
-        return instance
+        return instance"""
+    
+
+from rest_framework import serializers
+from book_api.models import Book
+
+class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = "__all__"
